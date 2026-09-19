@@ -5,7 +5,7 @@ A 26-week, day-by-day plan (in Russian) for system design fundamentals, the Azur
 - **Plan:** [plan.md](plan.md)
 - **Web page with progress tracking:** https://alexander-shamray.github.io/system-design-plan/
 
-The page renders `plan.md` and adds a checkbox to every day. Progress is stored in your browser's `localStorage`, so it stays on that device and browser only.
+The page renders `plan.md` and adds a checkbox to every day. Each day is a list of resources. A resource name opens its full description from the "Ресурсы" catalog in a popup. Progress is stored in your browser's `localStorage`, so it stays on that device and browser only.
 
 To move progress between devices, use the header buttons:
 

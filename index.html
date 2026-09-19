@@ -72,6 +72,20 @@ tr.done td:not(.chk) { color: var(--muted); }
   transition: opacity .2s, transform .2s; z-index: 20;
 }
 #toast.show { opacity: 1; transform: translate(-50%, 0); }
+td ul { list-style: none; margin: 0; padding: 0; }
+td li + li { margin-top: 4px; }
+main li:has(> a[id^="r-"]) { margin: 6px 0; padding: 4px 8px; border-radius: 6px; scroll-margin-top: 72px; }
+main li:has(> a[id^="r-"]:target) { background: var(--accent-soft); }
+#res {
+  position: fixed; right: 16px; bottom: 16px; z-index: 15; width: min(440px, calc(100% - 32px));
+  max-height: 60vh; overflow-y: auto; background: var(--surface); color: var(--text);
+  border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, .18); font-size: 15px;
+}
+#res[hidden] { display: none; }
+#res .body { word-break: break-word; }
+#res .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 10px; font-size: 14px; }
+#res ul { padding-left: 20px; }
 hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
 .err { padding: 16px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
 @media (max-width: 860px) {
@@ -96,6 +110,10 @@ hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
   <button class="icon" id="themeBtn" aria-label="Сменить тему">◐</button>
 </header>
 <div id="toast" role="status" aria-live="polite"></div>
+<div id="res" role="dialog" aria-label="Описание ресурса" hidden>
+  <div class="body"></div>
+  <div class="foot"><a href="#" class="goto">Показать в разделе «Ресурсы»</a><button class="icon close" aria-label="Закрыть">✕</button></div>
+</div>
 <div class="layout">
   <nav class="toc" id="toc"></nav>
   <main id="content"><p>Загрузка плана…</p></main>
@@ -252,6 +270,28 @@ hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
       document.getElementById('pct').textContent = checked + ' / ' + total + ' · ' + p + '%';
     };
     refresh();
+
+    // Resource links (#r-…) open the resource's description in a popup instead of jumping away.
+    var res = document.getElementById('res'), resBody = res.querySelector('.body'), resGoto = res.querySelector('.goto');
+    function closeRes() { res.hidden = true; }
+    res.querySelector('.close').onclick = closeRes;
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeRes(); });
+    resGoto.onclick = closeRes;
+    main.addEventListener('click', function (e) {
+      var a = e.target.closest('a[href^="#r-"]');
+      if (!a) return;
+      var anchor = document.getElementById(a.getAttribute('href').slice(1));
+      var entry = anchor && anchor.closest('li');
+      if (!entry || entry.contains(a)) return;
+      e.preventDefault();
+      resBody.innerHTML = '';
+      var copy = entry.cloneNode(true);
+      while (copy.firstChild) resBody.appendChild(copy.firstChild);
+      resBody.querySelectorAll('[id]').forEach(function (n) { n.removeAttribute('id'); });
+      resGoto.href = a.getAttribute('href');
+      res.hidden = false;
+    });
+
     if (location.hash) { var t = document.getElementById(decodeURIComponent(location.hash.slice(1))); if (t) t.scrollIntoView(); }
   }).catch(function (e) {
     document.getElementById('content').innerHTML =
