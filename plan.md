@@ -35,7 +35,7 @@
 **🇷🇺 По-русски** в конце описания — русское издание, перевод или локализация, если они есть. Машинный перевод помечен. Без русской версии: видео и лекции (кроме HighLoad++), Hello Interview, всё по AWS (документация, Skill Builder, SAA-C03), а также экзамены AZ-104 и AZ-305 — они сдаются на английском.
 
 ### Книги
-- <a id="r-ddia"></a>**📖 Designing Data-Intensive Applications (DDIA)** — Martin Kleppmann, O'Reilly, 1-е издание 2017. Главная книга по теории хранения данных, репликации, партиционированию, транзакциям и консенсусу. **Номера глав в плане даны по 1-му изданию.** Платная, около $40–60. Сайт книги: https://dataintensive.net/ · 🇷🇺 **По-русски:** 1-е издание: «Высоконагруженные приложения. Программирование, масштабирование, поддержка», Питер, 2018 — номера глав совпадают с планом: https://www.piter.com/collection/all/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2 · 2-е издание на предзаказе, выход ожидается 15 октября 2026 (главы уже не совпадают): https://www.piter.com/collection/soon/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2-e-izd-2
+- <a id="r-ddia"></a>**📖 Designing Data-Intensive Applications (DDIA)** — Martin Kleppmann, O'Reilly, 1-е издание 2017. Главная книга по теории хранения данных, репликации, партиционированию, транзакциям и консенсусу. **Номера глав в плане даны по 1-му изданию; строка «↳ 2-е изд.» под каждым чтением даёт главу и разделы 2-го издания.** Платная, около $40–60. Сайт книги: https://dataintensive.net/ · 🇬🇧 **2-е издание:** Martin Kleppmann, Chris Riccomini, O'Reilly, 2026, 14 глав. Темы идут в том же порядке, но главы сдвинулись (1-е → 2-е): 1 → 1–2, 2 → 3, 3 → 4, 4 → 5, 5 → 6, 6 → 7 (Sharding), 7 → 8 (плюс 2PC из гл. 9), 8 → 9, 9 → 10, 10 → 11, 11 → 12, 12 → 13–14. Оглавление: https://www.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/ · 🇷🇺 **По-русски:** 1-е издание: «Высоконагруженные приложения. Программирование, масштабирование, поддержка», Питер, 2018 — номера глав совпадают с планом: https://www.piter.com/collection/all/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2 · 2-е издание на предзаказе, выход ожидается 15 октября 2026 (главы уже не совпадают): https://www.piter.com/collection/soon/product/vysokonagruzhennye-prilozheniya-programmirovanie-masshtabirovanie-podderzhka-2-e-izd-2
 - <a id="r-xu"></a>**📖 System Design Interview, тома 1 и 2** — Alex Xu (том 2 с Sahn Lam). Разборы типовых задач собеседования со схемами: том 1 — 15 глав (от масштабирования до Google Drive), том 2 — 13 глав (геосервисы, платежи, мониторинг, бронирование). Платная: бумажная книга или онлайн-курс ByteByteGo с тем же текстом. Онлайн: https://bytebytego.com/courses/system-design-interview · 🇷🇺 **По-русски:** том 1 — «System Design. Подготовка к сложному интервью», Питер, 2022: https://www.piter.com/collection/programmirovanie-osnovy-i-algoritmy/product/system-design-podgotovka-k-slozhnomu-intervyu · том 2 — «System Design II. Распределенные системы. Подготовка к сложному интервью», Питер, 2026: https://www.piter.com/collection/top-2/product/system-design-ii-raspredelennye-sistemy-podgotovka-k-slozhnomu-intervyu
 
 ### Видео и лекции
@@ -119,17 +119,17 @@
 |---|---|
 | Д1 | <ul><li>📄 [Hello Interview](#r-hello): [Delivery Framework](https://www.hellointerview.com/learn/system-design/in-a-hurry/delivery)</li><li>📄 [System Design Primer](#r-primer): [How to approach a system design interview question](https://github.com/donnemartin/system-design-primer#how-to-approach-a-system-design-interview-question)</li></ul> |
 | Д2 | <ul><li>🧭 [Latency numbers](#r-latency): пройдите интерактив по годам</li><li>📄 [System Design Primer](#r-primer): [Powers of two](https://github.com/donnemartin/system-design-primer#powers-of-two-table), [Latency numbers](https://github.com/donnemartin/system-design-primer#latency-numbers-every-programmer-should-know)</li><li>🛠 **Упражнение:** оцените QPS и объём хранения в год для Twitter при 200M DAU</li></ul> |
-| Д3 | <ul><li>🎬 [Kleppmann](#r-kleppmann): [лекция 1 — Introduction](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)</li><li>📖 [DDIA](#r-ddia), гл. 1: Reliable, Scalable, Maintainable Applications</li></ul> |
-| Д4 | <ul><li>📖 [DDIA](#r-ddia): дочитать гл. 1</li><li>🛠 **Упражнение:** сформулируйте SLI и SLO для одного из своих проектов (латентность p99, доступность)</li></ul> |
+| Д3 | <ul><li>🎬 [Kleppmann](#r-kleppmann): [лекция 1 — Introduction](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)</li><li>📖 [DDIA](#r-ddia), гл. 1: Reliable, Scalable, Maintainable Applications</li><li>↳ 2-е изд.: гл. 1 «Trade-Offs in Data Systems Architecture»; надёжность и масштабируемость переехали в гл. 2</li></ul> |
+| Д4 | <ul><li>📖 [DDIA](#r-ddia): дочитать гл. 1</li><li>↳ 2-е изд.: гл. 2 «Defining Nonfunctional Requirements»; к упражнению — раздел Describing Performance (перцентили, p99)</li><li>🛠 **Упражнение:** сформулируйте SLI и SLO для одного из своих проектов (латентность p99, доступность)</li><li>🎯 [Разбор: SLI и SLO на примере blueprint-backend](sli-slo.html)</li></ul> |
 | Д5 | <ul><li>🎬 [Harvard CS75: Scalability](#r-harvard) — или —</li><li>📖 [Alex Xu, т. 1](#r-xu), гл. 1: [Scale from zero to millions of users](https://bytebytego.com/courses/system-design-interview/scale-from-zero-to-millions-of-users)</li></ul> |
 | Д6 | <ul><li>🧩 **Задача: URL shortener (bit.ly)** по шаблону</li><li>📄 Сверка: [Hello Interview](#r-hello) — [Bitly](https://www.hellointerview.com/learn/system-design/problem-breakdowns/bitly)</li></ul> |
 
 ### Неделя 2. Модели данных и хранение
 | День | Что делать |
 |---|---|
-| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 2: реляционная, документная и графовая модели</li></ul> |
-| Д2 | <ul><li>📖 [DDIA](#r-ddia), гл. 3, первая половина: хеш-индексы, SSTable, LSM-деревья</li></ul> |
-| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 3, вторая половина: B-деревья, OLTP и OLAP, колоночное хранение</li><li>🎬 [Hussein Nasser](#r-nasser): [видео о B-tree и LSM](https://www.youtube.com/@hnasr/search?query=LSM%20B-tree)</li></ul> |
+| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 2: реляционная, документная и графовая модели</li><li>↳ 2-е изд.: гл. 3 «Data Models and Query Languages»: Relational Versus Document Models, Graph-Like Data Models; новый раздел Event Sourcing and CQRS</li></ul> |
+| Д2 | <ul><li>📖 [DDIA](#r-ddia), гл. 3, первая половина: хеш-индексы, SSTable, LSM-деревья</li><li>↳ 2-е изд.: гл. 4 «Storage and Retrieval»: Log-Structured Storage</li></ul> |
+| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 3, вторая половина: B-деревья, OLTP и OLAP, колоночное хранение</li><li>↳ 2-е изд.: гл. 4: B-Trees, Comparing B-Trees and LSM-Trees, Data Storage for Analytics (в том числе Column-Oriented Storage)</li><li>🎬 [Hussein Nasser](#r-nasser): [видео о B-tree и LSM](https://www.youtube.com/@hnasr/search?query=LSM%20B-tree)</li></ul> |
 | Д4 | <ul><li>🛠 **Упражнение (C#):** append-only key-value хранилище с in-memory hash-индексом и компакцией (примерно 150 строк)</li></ul> |
 | Д5 | <ul><li>📄 [System Design Primer](#r-primer): [SQL or NoSQL](https://github.com/donnemartin/system-design-primer#sql-or-nosql)</li><li>📄 [Azure Architecture Center](#r-azarch): [выбор хранилища данных](https://learn.microsoft.com/azure/architecture/guide/technology-choices/data-store-decision-tree)</li><li>🛠 **Упражнение:** сравните Cosmos DB, DynamoDB, Cassandra и PostgreSQL по ключевым свойствам</li></ul> |
 | Д6 | <ul><li>🧩 **Задача: Pastebin** по шаблону</li><li>📄 Сверка: [System Design Primer](#r-primer) — [Pastebin](https://github.com/donnemartin/system-design-primer/blob/master/solutions/system_design/pastebin/README.md)</li></ul> |
@@ -137,7 +137,7 @@
 ### Неделя 3. Сеть, API, балансировка
 | День | Что делать |
 |---|---|
-| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 4: форматы кодирования и эволюция схем (JSON, Protobuf, Avro)</li></ul> |
+| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 4: форматы кодирования и эволюция схем (JSON, Protobuf, Avro)</li><li>↳ 2-е изд.: гл. 5 «Encoding and Evolution»: Formats for Encoding Data</li></ul> |
 | Д2 | <ul><li>🎬 [Hussein Nasser](#r-nasser): [REST, gRPC, GraphQL, WebSocket, SSE, long polling](https://www.youtube.com/@hnasr/search?query=websockets%20long%20polling%20server%20sent%20events)</li><li>📄 [Hello Interview](#r-hello): [Networking Essentials](https://www.hellointerview.com/learn/system-design/core-concepts/networking-essentials)</li></ul> |
 | Д3 | <ul><li>📄 [System Design Primer](#r-primer): [Load balancer](https://github.com/donnemartin/system-design-primer#load-balancer), [Reverse proxy](https://github.com/donnemartin/system-design-primer#reverse-proxy-web-server), [DNS](https://github.com/donnemartin/system-design-primer#domain-name-system), [CDN](https://github.com/donnemartin/system-design-primer#content-delivery-network)</li><li>Тема: балансировщики L4 и L7, API gateway</li></ul> |
 | Д4 | <ul><li>🛠 **Упражнение (.NET):** gRPC-сервис; добавьте поле в схему и проверьте обратную совместимость со старым клиентом</li><li>📄 [Документация .NET](#r-dotnet): [версионирование gRPC-сервисов](https://learn.microsoft.com/aspnet/core/grpc/versioning)</li></ul> |
@@ -148,8 +148,8 @@
 | День | Что делать |
 |---|---|
 | Д1 | <ul><li>🎬 [Kleppmann](#r-kleppmann): [лекция 2 — Models of distributed systems](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)</li></ul> |
-| Д2 | <ul><li>📖 [DDIA](#r-ddia), гл. 5: leader и follower, синхронная и асинхронная репликация, отставание реплик</li></ul> |
-| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 5: multi-leader, leaderless, кворумы (W + R > N)</li><li>🎬 [Kleppmann](#r-kleppmann): [лекция 5 — Replication](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)</li></ul> |
+| Д2 | <ul><li>📖 [DDIA](#r-ddia), гл. 5: leader и follower, синхронная и асинхронная репликация, отставание реплик</li><li>↳ 2-е изд.: гл. 6 «Replication»: Single-Leader Replication (в том числе Problems with Replication Lag)</li></ul> |
+| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 5: multi-leader, leaderless, кворумы (W + R > N)</li><li>↳ 2-е изд.: гл. 6: Multi-Leader Replication, Leaderless Replication</li><li>🎬 [Kleppmann](#r-kleppmann): [лекция 5 — Replication](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)</li></ul> |
 | Д4 | <ul><li>🛠 **Упражнение:** PostgreSQL primary + replica в Docker. Измерьте отставание реплики и воспроизведите нарушение read-your-writes</li><li>📄 [Документация PostgreSQL](#r-techdocs): [streaming replication](https://www.postgresql.org/docs/current/warm-standby.html)</li></ul> |
 | Д5 | <ul><li>🗣 **Упражнение:** гарантии консистентности read-your-writes, monotonic reads, consistent prefix — опишите своими словами на английском (полстраницы)</li></ul> |
 | Д6 | <ul><li>🧩 **Задача: распределённое key-value хранилище** по шаблону</li><li>📖 Сверка: [Alex Xu, т. 1](#r-xu), гл. 6: [Design a key-value store](https://bytebytego.com/courses/system-design-interview/design-a-key-value-store)</li></ul> |
@@ -157,7 +157,7 @@
 ### Неделя 5. Партиционирование и кэширование
 | День | Что делать |
 |---|---|
-| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 6: партиционирование по ключу и по хешу, горячие ключи, вторичные индексы</li></ul> |
+| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 6: партиционирование по ключу и по хешу, горячие ключи, вторичные индексы</li><li>↳ 2-е изд.: гл. 7 «Sharding» (в 1-м изд. — Partitioning): Sharding of Key-Value Data, Sharding and Secondary Indexes</li></ul> |
 | Д2 | <ul><li>🎬 [ByteByteGo](#r-bytebytego): [consistent hashing](https://www.youtube.com/@ByteByteGo/search?query=consistent%20hashing)</li><li>📖 [Alex Xu, т. 1](#r-xu), гл. 5: [Design consistent hashing](https://bytebytego.com/courses/system-design-interview/design-consistent-hashing) — виртуальные узлы</li></ul> |
 | Д3 | <ul><li>🛠 **Упражнение (C#):** consistent hashing с виртуальными узлами. Измерьте, сколько ключей переезжает при добавлении узла</li></ul> |
 | Д4 | <ul><li>📄 [Hello Interview](#r-hello): [Caching](https://www.hellointerview.com/learn/system-design/core-concepts/caching) — cache-aside, write-through, write-behind</li><li>📄 [System Design Primer](#r-primer): [Cache](https://github.com/donnemartin/system-design-primer#cache) — инвалидация, TTL, cache stampede</li></ul> |
@@ -167,8 +167,8 @@
 ### Неделя 6. Транзакции и распределённые бизнес-процессы
 | День | Что делать |
 |---|---|
-| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 7: ACID, уровни изоляции, аномалии (lost update, write skew)</li></ul> |
-| Д2 | <ul><li>📖 [DDIA](#r-ddia), гл. 7: snapshot isolation и serializable</li><li>🛠 **Упражнение:** воспроизведите write skew в PostgreSQL двумя сессиями</li><li>📄 [Документация PostgreSQL](#r-techdocs): [Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html)</li></ul> |
+| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 7: ACID, уровни изоляции, аномалии (lost update, write skew)</li><li>↳ 2-е изд.: гл. 8 «Transactions»: What Exactly Is a Transaction?, Weak Isolation Levels</li></ul> |
+| Д2 | <ul><li>📖 [DDIA](#r-ddia), гл. 7: snapshot isolation и serializable</li><li>↳ 2-е изд.: гл. 8: Snapshot Isolation and Repeatable Read, Serializability; там же Distributed Transactions (2PC), которые в 1-м изд. были в гл. 9</li><li>🛠 **Упражнение:** воспроизведите write skew в PostgreSQL двумя сессиями</li><li>📄 [Документация PostgreSQL](#r-techdocs): [Transaction Isolation](https://www.postgresql.org/docs/current/transaction-iso.html)</li></ul> |
 | Д3 | <ul><li>📄 [microservices.io](#r-msio): [Transactional Outbox](https://microservices.io/patterns/data/transactional-outbox.html), [Saga](https://microservices.io/patterns/data/saga.html) (хореография и оркестрация)</li><li>📄 [Hello Interview](#r-hello): [Multi-step Processes](https://www.hellointerview.com/learn/system-design/patterns/multi-step-processes)</li><li>Тема: Inbox, идемпотентность и idempotency keys</li></ul> |
 | Д4 | <ul><li>🛠 **Упражнение (.NET):** Outbox + RabbitMQ (вручную или через MassTransit), идемпотентный потребитель</li><li>📄 [Документация MassTransit](#r-techdocs): [Transactional Outbox](https://masstransit.io/documentation/patterns/transactional-outbox)</li></ul> |
 | Д5 | <ul><li>📄 [Azure Architecture Center](#r-azarch): [Saga](https://learn.microsoft.com/azure/architecture/patterns/saga), [Compensating Transaction](https://learn.microsoft.com/azure/architecture/patterns/compensating-transaction), [Retry](https://learn.microsoft.com/azure/architecture/patterns/retry), [Circuit Breaker](https://learn.microsoft.com/azure/architecture/patterns/circuit-breaker)</li></ul> |
@@ -177,9 +177,9 @@
 ### Неделя 7. Сбои, время, консенсус
 | День | Что делать |
 |---|---|
-| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 8: ненадёжные сети и часы, паузы процессов, fencing tokens</li></ul> |
+| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 8: ненадёжные сети и часы, паузы процессов, fencing tokens</li><li>↳ 2-е изд.: гл. 9 «The Trouble with Distributed Systems»: Unreliable Networks, Unreliable Clocks (в том числе Process Pauses), Knowledge, Truth, and Lies (Distributed Locks and Leases)</li></ul> |
 | Д2 | <ul><li>🎬 [Kleppmann](#r-kleppmann): [лекции 3 — Time, clocks и 4 — Broadcast](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)</li></ul> |
-| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 9: линеаризуемость, CAP, PACELC</li><li>📄 [Hello Interview](#r-hello): [CAP Theorem](https://www.hellointerview.com/learn/system-design/core-concepts/cap-theorem)</li></ul> |
+| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 9: линеаризуемость, CAP, PACELC</li><li>↳ 2-е изд.: гл. 10 «Consistency and Consensus»: Linearizability, включая The Cost of Linearizability</li><li>📄 [Hello Interview](#r-hello): [CAP Theorem](https://www.hellointerview.com/learn/system-design/core-concepts/cap-theorem)</li></ul> |
 | Д4 | <ul><li>🧭 [Визуализация Raft](#r-raftviz)</li><li>🎬 [MIT 6.824](#r-mit): [лекция о Raft](https://pdos.csail.mit.edu/6.824/schedule.html)</li><li>🎬 [Kleppmann](#r-kleppmann): [лекция 6 — Consensus](https://www.youtube.com/playlist?list=PLeKd45zvjcDFUEv_ohr_HdUFe97RItdiB)</li></ul> |
 | Д5 | <ul><li>🗣 **Упражнение:** на английском объясните одностраничным текстом, как Raft выбирает лидера и почему нужен кворум. Потом расскажите это вслух за 3 минуты</li></ul> |
 | Д6 | <ul><li>🧩 **Задача: распределённый планировщик задач или сервис блокировок**</li><li>📄 Сверка: [Hello Interview](#r-hello) — [Job Scheduler](https://www.hellointerview.com/learn/system-design/problem-breakdowns/job-scheduler)</li></ul> |
@@ -187,9 +187,9 @@
 ### Неделя 8. Потоки данных и observability. Контрольная точка
 | День | Что делать |
 |---|---|
-| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 11: логи сообщений (Kafka), CDC, event sourcing</li><li>📄 [Hello Interview](#r-hello): [Kafka deep dive](https://www.hellointerview.com/learn/system-design/deep-dives/kafka)</li></ul> |
+| Д1 | <ul><li>📖 [DDIA](#r-ddia), гл. 11: логи сообщений (Kafka), CDC, event sourcing</li><li>↳ 2-е изд.: гл. 12 «Stream Processing»: Transmitting Event Streams, Databases and Streams (Change Data Capture); event sourcing — ещё и в гл. 3, раздел Event Sourcing and CQRS</li><li>📄 [Hello Interview](#r-hello): [Kafka deep dive](https://www.hellointerview.com/learn/system-design/deep-dives/kafka)</li></ul> |
 | Д2 | <ul><li>📄 [Azure Architecture Center](#r-azarch): [выбор сервиса сообщений](https://learn.microsoft.com/azure/architecture/guide/technology-choices/messaging) — Service Bus, Event Hubs, Event Grid</li><li>Тема: Kafka и RabbitMQ; семантика at-least-once и exactly-once</li></ul> |
-| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 10 (обзорно): batch-обработка, MapReduce</li><li>📄 [Azure Architecture Center](#r-azarch): [CQRS](https://learn.microsoft.com/azure/architecture/patterns/cqrs)</li></ul> |
+| Д3 | <ul><li>📖 [DDIA](#r-ddia), гл. 10 (обзорно): batch-обработка, MapReduce</li><li>↳ 2-е изд.: гл. 11 «Batch Processing» (обзорно): Batch Processing Models; к CQRS — гл. 3, раздел Event Sourcing and CQRS</li><li>📄 [Azure Architecture Center](#r-azarch): [CQRS](https://learn.microsoft.com/azure/architecture/patterns/cqrs)</li></ul> |
 | Д4 | <ul><li>📄 [Документация OpenTelemetry](#r-techdocs): [What is OpenTelemetry](https://opentelemetry.io/docs/what-is-opentelemetry/) — логи, метрики, трейсы</li><li>🗣 **Упражнение:** сформулируйте, как бы вы объясняли свой опыт с Loki и Tempo на собеседовании</li></ul> |
 | Д5 | <ul><li>🛠 Повторите заметки из `design-journal.md` за 7 недель</li></ul> |
 | Д6 | <ul><li>🗣 [**Первое пробное собеседование с партнёром**](#r-peer) (на английском)</li><li>🧩 Задача: ad click aggregator или top-K. Сверка: [Hello Interview](#r-hello) — [Ad Click Aggregator](https://www.hellointerview.com/learn/system-design/problem-breakdowns/ad-click-aggregator), [Top K](https://www.hellointerview.com/learn/system-design/problem-breakdowns/top-k)</li></ul> |

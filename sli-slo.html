@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SLI и SLO</title>
+<meta name="description" content="Разбор упражнения недели 1, день 4: SLI и SLO (латентность p99, доступность) на примере blueprint-backend.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=JetBrains+Mono&display=swap">
+<style>
+:root {
+  --bg: #f7f7f5; --surface: #ffffff; --text: #1d1d1f; --muted: #6b6b70;
+  --border: #e3e3df; --accent: #2f6fde; --accent-soft: #e6eefc;
+  --done: #1f9d55; --done-soft: #e5f5ec; --code-bg: #f0f0ec;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121214; --surface: #1b1b1f; --text: #ececf0; --muted: #9a9aa3;
+    --border: #2c2c33; --accent: #6d9cf0; --accent-soft: #1e2a44;
+    --done: #3fbf78; --done-soft: #16301f; --code-bg: #24242a;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121214; --surface: #1b1b1f; --text: #ececf0; --muted: #9a9aa3;
+  --border: #2c2c33; --accent: #6d9cf0; --accent-soft: #1e2a44;
+  --done: #3fbf78; --done-soft: #16301f; --code-bg: #24242a;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; overflow-x: hidden; }
+body { background: var(--bg); color: var(--text); font: 16px/1.6 Inter, system-ui, sans-serif; }
+a { color: var(--accent); }
+header.top {
+  position: sticky; top: 0; z-index: 10; background: var(--surface);
+  border-bottom: 1px solid var(--border); padding: 10px 16px;
+  display: flex; align-items: center; gap: 12px;
+}
+header.top a.back { text-decoration: none; white-space: nowrap; }
+header.top strong { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+button.icon { background: none; border: 1px solid var(--border); color: var(--text); border-radius: 6px; padding: 4px 8px; cursor: pointer; font: inherit; font-size: 14px; }
+main { max-width: 860px; margin: 0 auto; padding: 24px 16px 80px; }
+main h1 { font-size: 30px; line-height: 1.2; margin: 8px 0 4px; }
+main .lead { color: var(--muted); margin-top: 0; }
+main h2 { margin-top: 48px; padding-bottom: 6px; border-bottom: 2px solid var(--border); scroll-margin-top: 64px; }
+main h3 { margin-top: 32px; scroll-margin-top: 64px; }
+blockquote { margin: 16px 0; padding: 8px 16px; border-left: 4px solid var(--accent); background: var(--accent-soft); border-radius: 0 6px 6px 0; }
+code { font-family: "JetBrains Mono", monospace; font-size: .9em; background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+pre { background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; overflow-x: auto; font-size: 14px; line-height: 1.5; }
+pre code { background: none; padding: 0; font-size: inherit; }
+.tbl { overflow-x: auto; margin: 12px 0; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 15px; }
+th, td { padding: 8px 12px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+tr:last-child td { border-bottom: none; }
+th { background: var(--code-bg); font-weight: 600; }
+nav.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 16px; font-size: 15px; }
+nav.toc ol { margin: 4px 0; padding-left: 20px; }
+@media (max-width: 520px) { header.top strong { display: none; } header.top a.back { flex: 1; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="back" href="index.html">← План</a>
+  <strong>SLI и SLO</strong>
+  <button class="icon" id="themeBtn" aria-label="Сменить тему">◐</button>
+</header>
+<main>
+<h1>SLI и SLO: латентность p99 и доступность</h1>
+<p class="lead">Упражнение недели 1, день 4: сформулировать SLI и SLO для одного из своих проектов. Разбор на примере <a href="https://github.com/alexander-shamray/blueprint-backend">blueprint-backend</a> (сервисы Catalog и Ordering за gateway).</p>
+
+<nav class="toc" aria-label="Содержание">
+<ol>
+  <li><a href="#concepts">Основные понятия</a></li>
+  <li><a href="#task">Что нужно сделать</a></li>
+  <li><a href="#histogram">Как измеряется латентность: гистограмма</a></li>
+  <li><a href="#prometheus">Prometheus</a></li>
+  <li><a href="#example">Пример: SLI и SLO для blueprint-backend</a></li>
+  <li><a href="#defense">Что сказать на защите</a></li>
+  <li><a href="#links">Ссылки</a></li>
+</ol>
+</nav>
+
+<h2 id="concepts">1. Основные понятия</h2>
+<p><b>SLI (Service Level Indicator)</b> — измеряемая метрика качества сервиса с точки зрения пользователя. Почти всегда это доля: хорошие события делённые на все. Например, «доля запросов, на которые пришёл ответ без 5xx».</p>
+<p><b>SLO (Service Level Objective)</b> — цель для SLI за окно времени. Например, «SLI доступности ≥ 99.9% за скользящие 30 дней». Это внутренняя цель команды.</p>
+<p><b>SLA (Service Level Agreement)</b> — договор с клиентом с денежной ответственностью. SLA всегда мягче SLO, чтобы между ними был запас. В учебном задании SLA обычно не требуется.</p>
+<p><b>Error budget (бюджет ошибок)</b> — 100% минус SLO. Это объём сбоев, который можно себе позволить. Пока бюджет есть, можно выпускать фичи и рисковать. Когда он кончился, команда занимается надёжностью.</p>
+<div class="tbl"><table>
+<thead><tr><th>SLO</th><th>Бюджет за 30 дней (по времени)</th><th>Бюджет по запросам</th></tr></thead>
+<tbody>
+<tr><td>99%</td><td>7 ч 12 мин</td><td>1 из 100</td></tr>
+<tr><td>99.9%</td><td>43 мин</td><td>1 из 1 000</td></tr>
+<tr><td>99.95%</td><td>21.6 мин</td><td>1 из 2 000</td></tr>
+<tr><td>99.99%</td><td>4.3 мин</td><td>1 из 10 000</td></tr>
+</tbody>
+</table></div>
+<p><b>Перцентиль p99</b> — время, быстрее которого выполняются 99% запросов. Среднее значение прячет «хвост»: при среднем 50 мс каждый сотый пользователь может ждать 3 секунды. Поэтому латентность задают через перцентили: p50 показывает типичный опыт, p99 — хвост.</p>
+<p>Есть две формулировки SLO по латентности, и их полезно различать:</p>
+<ul>
+  <li><b>Через перцентиль:</b> «p99 &lt; 300 мс». Наглядно, но перцентили нельзя складывать и усреднять, и из них трудно вывести бюджет ошибок.</li>
+  <li><b>Через порог (как рекомендует Google SRE):</b> «≥ 99% запросов быстрее 300 мс». По смыслу это то же самое, но это обычная доля. Её можно агрегировать, и бюджет ошибок считается так же, как для доступности.</li>
+</ul>
+<p><b>Доступность</b> можно считать двумя способами:</p>
+<ul>
+  <li><b>По времени:</b> сколько минут сервис работал.</li>
+  <li><b>По запросам:</b> доля успешных запросов. Для API это честнее, потому что учитывает частичные сбои.</li>
+</ul>
+
+<h2 id="task">2. Что нужно сделать</h2>
+<ol>
+  <li>Выбрать проект и 1–2 ключевых пользовательских сценария (critical user journeys). SLO ставят на то, что важно пользователю, а не на загрузку CPU.</li>
+  <li>Для каждого сценария описать SLI: что считаем хорошим событием, что считаем всеми событиями, где измеряем, что исключаем.</li>
+  <li>Задать SLO: цель, окно, получившийся бюджет ошибок.</li>
+  <li>Показать, как это измеряется: метрика и запрос к ней.</li>
+  <li>Желательно добавить, что происходит при сжигании бюджета: алерты и политика.</li>
+</ol>
+
+<h2 id="histogram">3. Как измеряется латентность: гистограмма</h2>
+<p>В ASP.NET Core длительность запросов пишет встроенная метрика <a href="https://learn.microsoft.com/en-us/aspnet/core/metrics/http?view=aspnetcore-10.0#metric-httpserverrequestduration"><code>http.server.request.duration</code></a>. Meter <code>Microsoft.AspNetCore.Hosting</code>, тип <b>Histogram</b>, единица — секунды. Атрибуты: <code>http.route</code>, <code>http.request.method</code>, <code>http.response.status_code</code>, <code>error.type</code> и другие.</p>
+<p>Слово «гистограмма» здесь означает тип метрики, а не картинку. Сервис не хранит время каждого запроса. Он раскладывает запросы по «корзинам» (бакетам) и считает, сколько запросов попало в каждую. Бакеты по умолчанию при использовании OpenTelemetry:</p>
+<pre><code>[0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1, 2.5, 5, 7.5, 10]</code></pre>
+<p>В Prometheus это выглядит как набор счётчиков с меткой <code>le</code> («less or equal»). Счётчики накопительные: каждый включает все запросы из предыдущих бакетов.</p>
+<pre><code>http_server_request_duration_seconds_bucket{le="0.05"}  = 820   ← быстрее 50 мс
+http_server_request_duration_seconds_bucket{le="0.1"}   = 950   ← быстрее 100 мс
+http_server_request_duration_seconds_bucket{le="0.25"}  = 990   ← быстрее 250 мс
+http_server_request_duration_seconds_bucket{le="0.5"}   = 998
+http_server_request_duration_seconds_bucket{le="+Inf"}  = 1000  ← все запросы
+http_server_request_duration_seconds_count              = 1000
+http_server_request_duration_seconds_sum                = 41.7  ← суммарное время, с</code></pre>
+<p>Например, 990 из 1000 = 99%, значит p99 ≈ 250 мс. Этот же расчёт делает <code>histogram_quantile(0.99, …)</code>, а SLI в виде «доли быстрых запросов» просто берёт бакет <code>le="0.25"</code> и делит его на <code>_count</code>.</p>
+<blockquote>Поэтому пороги SLO по латентности стоит выбирать на границах бакетов (250 мс, 500 мс). Порог вроде 300 мс Prometheus посчитает только интерполяцией, то есть неточно.</blockquote>
+
+<h2 id="prometheus">4. Prometheus</h2>
+<p><b>Prometheus</b> — база данных временных рядов для метрик, плюс язык запросов <b>PromQL</b> и система алертов. Open-source проект фонда CNCF и фактический стандарт мониторинга.</p>
+<ul>
+  <li><b>Хранит числа во времени.</b> Каждая уникальная комбинация «имя метрики + метки» — это отдельный временной ряд.</li>
+  <li><b>Собирает данные.</b> Классически сам опрашивает <code>/metrics</code> сервисов раз в 15–30 секунд (pull). Умеет и принимать присланные данные (push через remote write или OTLP).</li>
+  <li><b>Отвечает на запросы PromQL:</b> <code>rate(...)</code> — события в секунду, <code>histogram_quantile(...)</code> — перцентили, деление «хорошие / все» — это и есть SLI.</li>
+  <li><b>Проверяет правила алертов</b> и отправляет сработавшие в Alertmanager, а оттуда в Slack, почту или PagerDuty.</li>
+</ul>
+<p>Графики рисует <b>Grafana</b>. В стеке наблюдаемости у каждого сигнала своё хранилище:</p>
+<div class="tbl"><table>
+<thead><tr><th>Сигнал</th><th>Вопрос</th><th>Хранилище</th></tr></thead>
+<tbody>
+<tr><td>Метрики</td><td>Что-то сломалось? Насколько? (RPS, ошибки, p99)</td><td>Prometheus</td></tr>
+<tr><td>Логи</td><td>Что именно произошло?</td><td>Loki</td></tr>
+<tr><td>Трейсы</td><td>Где именно тормозит запрос?</td><td>Tempo</td></tr>
+</tbody>
+</table></div>
+<p>В blueprint-backend метрики идут так:</p>
+<pre><code>Сервисы (.NET, OpenTelemetry SDK)
+   │  OTLP (порты 4317/4318)
+   ▼
+OpenTelemetry Collector        ← deploy/compose/otel/config.yaml
+   │  otlphttp
+   ▼
+grafana/otel-lgtm              ← Loki + Grafana + Tempo + Prometheus в одном контейнере
+   ▼
+Grafana http://localhost:3000  → Explore → Prometheus</code></pre>
+<p>Для собеседований стоит знать ещё три вещи:</p>
+<ul>
+  <li><b>Pull против push.</b> При pull Prometheus сам видит, что цель пропала. Push удобнее для короткоживущих задач и в схемах с коллектором.</li>
+  <li><b>Кардинальность.</b> Каждая новая комбинация меток создаёт новый ряд. Метки вроде <code>user_id</code> или <code>order_id</code> раздувают базу, поэтому в метки кладут только значения с небольшим числом вариантов.</li>
+  <li><b>Масштабирование.</b> Один Prometheus не кластеризуется. Для долгого хранения и горизонтального масштабирования используют Thanos, Mimir или VictoriaMetrics.</li>
+</ul>
+
+<h2 id="example">5. Пример: SLI и SLO для blueprint-backend</h2>
+<p>В проекте уже есть стартовые SLO: <a href="https://github.com/alexander-shamray/blueprint-backend/blob/main/docs/backend-architecture/13-observability.md#137-starting-slos">§13.7 Starting SLOs</a> задаёт p95 команд &lt; 100 мс, p95 запросов &lt; 80 мс и доступность 99.9% в месяц. <a href="https://github.com/alexander-shamray/blueprint-backend/blob/main/docs/runbooks/latency.md">Runbook по латентности</a> описывает алерт <code>p99 &gt; 1 s</code>. Упражнение просит p99, а алерт — это не SLO, поэтому p99 здесь сформулирован заново.</p>
+<p><b>Источник данных:</b> гистограмма <code>http.server.request.duration</code> → Prometheus. В сервисах её подключает <code>.AddAspNetCoreInstrumentation()</code> в <a href="https://github.com/alexander-shamray/blueprint-backend/blob/main/src/BuildingBlocks/Common.Web/ObservabilityExtensions.cs#L79"><code>ObservabilityExtensions.cs</code></a>.</p>
+
+<h3>SLI и SLO</h3>
+<div class="tbl"><table>
+<thead><tr><th>#</th><th>Сценарий</th><th>SLI</th><th>SLO (скользящие 30 дней)</th></tr></thead>
+<tbody>
+<tr><td>1</td><td>Доступность Ordering API</td><td>доля запросов с кодом не 5xx от всех запросов (без <code>/health/*</code>)</td><td>≥ 99.9% (бюджет ≈ 43 мин или 1 из 1000 запросов)</td></tr>
+<tr><td>2</td><td>Латентность чтения каталога (<code>GET /catalog/...</code>)</td><td>доля запросов быстрее 250 мс</td><td>≥ 99% (то есть p99 &lt; 250 мс)</td></tr>
+<tr><td>3</td><td>Латентность оформления заказа (<code>POST /orders</code>)</td><td>доля запросов быстрее 500 мс</td><td>≥ 99% (то есть p99 &lt; 500 мс)</td></tr>
+</tbody>
+</table></div>
+<p>Почему решения такие:</p>
+<ul>
+  <li><b>4xx считаются «хорошими» запросами.</b> Это ошибка клиента, а не сервиса. Исключение — 429 (throttling), если его вызвала наша перегрузка. Такие вещи стоит проговорить явно.</li>
+  <li><b>Пороги 250 и 500 мс</b> — это границы бакетов гистограммы (см. <a href="#histogram">раздел 3</a>).</li>
+  <li><b>Команда получила порог мягче, чем запрос.</b> Команда пишет в БД и outbox, запрос читает, а часто и попадает в кэш Redis. Это согласуется с p95 из §13.7 (100 и 80 мс).</li>
+</ul>
+
+<h3>Измерение (PromQL)</h3>
+<p>Доступность:</p>
+<pre><code>sum(rate(http_server_request_duration_seconds_count{service_name="ordering", http_route!~"/health.*", http_response_status_code!~"5.."}[30d]))
+/
+sum(rate(http_server_request_duration_seconds_count{service_name="ordering", http_route!~"/health.*"}[30d]))</code></pre>
+<p>Латентность как доля быстрых запросов:</p>
+<pre><code>sum(rate(http_server_request_duration_seconds_bucket{service_name="catalog", le="0.25"}[30d]))
+/
+sum(rate(http_server_request_duration_seconds_count{service_name="catalog"}[30d]))</code></pre>
+<p>Кривая p99 для дашборда:</p>
+<pre><code>histogram_quantile(0.99, sum by (le) (rate(http_server_request_duration_seconds_bucket{service_name="catalog"}[5m])))</code></pre>
+<p>Чтобы увидеть саму гистограмму, в Grafana → Explore → Prometheus выполните <code>sum by (le) (rate(http_server_request_duration_seconds_bucket{service_name="catalog"}[5m]))</code> и переключите визуализацию на <b>Heatmap</b>. Данные появятся только после того, как по API пойдут запросы.</p>
+
+<h3>Алерты на сжигание бюджета (multi-window burn rate)</h3>
+<ul>
+  <li><b>Page (разбудить дежурного):</b> burn rate &gt; 14.4 за 1 час <b>и</b> за 5 минут. Это значит, что за час сгорело 2% месячного бюджета.</li>
+  <li><b>Ticket (завести задачу):</b> burn rate &gt; 6 за 6 часов <b>и</b> за 30 минут.</li>
+</ul>
+<p>Алерт <code>p99 &gt; 1 s</code> из runbook остаётся. Это симптомный алерт, он дополняет SLO, а не заменяет его.</p>
+
+<h3>Политика бюджета ошибок</h3>
+<p>Если бюджет израсходован, релизы фич замораживаются, кроме фиксов надёжности, и проводится постмортем. Если бюджет стабильно не тратится, SLO можно ужесточить или выпускать релизы смелее.</p>
+
+<h2 id="defense">6. Что сказать на защите</h2>
+<ul>
+  <li><b>Где измерять.</b> На сервере не видны edge, TLS и сеть. Ближе к пользователю измерять на gateway или синтетическими пробами. В проекте это учтено: k6 создаёт нагрузку, а решение принимается по метрикам Prometheus (§13.7).</li>
+  <li><b>Мало трафика — шумный p99.</b> При 100 запросах в окне p99 определяется одним запросом. Для учебного стенда это нормально, но оговорку стоит сделать.</li>
+  <li><b>Стартовые цифры — гипотеза.</b> Их уточняют по реальным измерениям за первый месяц. §13.7 говорит то же самое.</li>
+</ul>
+
+<h2 id="links">7. Ссылки</h2>
+<ul>
+  <li><a href="https://learn.microsoft.com/en-us/aspnet/core/metrics/http?view=aspnetcore-10.0#metric-httpserverrequestduration">ASP.NET Core built-in HTTP metrics: <code>http.server.request.duration</code></a></li>
+  <li><a href="https://opentelemetry.io/docs/specs/semconv/http/http-metrics/">OpenTelemetry: семантические соглашения для HTTP-метрик</a> (те же бакеты)</li>
+  <li><a href="https://learn.microsoft.com/en-us/aspnet/core/log-mon/metrics/metrics">ASP.NET Core metrics: сбор и экспорт</a></li>
+  <li>DDIA, раздел Describing Performance (среднее, медиана, перцентили): 1-е изд. — гл. 1, 2-е изд. — гл. 2 «Defining Nonfunctional Requirements»</li>
+  <li><a href="https://sre.google/sre-book/service-level-objectives/">Google SRE Book, гл. 4: Service Level Objectives</a></li>
+  <li><a href="https://sre.google/workbook/implementing-slos/">Google SRE Workbook: Implementing SLOs</a></li>
+  <li><a href="https://sre.google/workbook/alerting-on-slos/">Google SRE Workbook: Alerting on SLOs</a> (burn rate, множители 14.4 и 6)</li>
+  <li><a href="https://prometheus.io/docs/practices/histograms/">Prometheus: Histograms and summaries</a></li>
+</ul>
+</main>
+<script>
+(function () {
+  // Same theme key as index.html, so the choice carries between the two pages.
+  var KEY = 'sd-roadmap-v1:theme', root = document.documentElement, theme = null;
+  try { theme = JSON.parse(localStorage.getItem(KEY)); } catch (e) {}
+  if (theme) root.setAttribute('data-theme', theme);
+  document.getElementById('themeBtn').onclick = function () {
+    var dark = root.getAttribute('data-theme') === 'dark' ||
+      (!root.getAttribute('data-theme') && matchMedia('(prefers-color-scheme: dark)').matches);
+    theme = dark ? 'light' : 'dark';
+    root.setAttribute('data-theme', theme);
+    try { localStorage.setItem(KEY, JSON.stringify(theme)); } catch (e) {}
+  };
+  document.querySelectorAll('a[href^="http"]').forEach(function (a) { a.target = '_blank'; a.rel = 'noopener'; });
+})();
+</script>
+</body>
+</html>
